@@ -22,7 +22,15 @@ jobs:
       - run: echo "{{ inputs.version }}"
       - run: echo "{{ inputs.release_type }}"
       - run: echo "{{ inputs.run_number }}"
-      - run: echo "Build date:=$(date +%F)" >> "$GITHUB_OUTPUT"
+      - run: echo "Build_date:=$(date +%F)" >> "$GITHUB_OUTPUT"
+
+  announce:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: output
+        run: |
+          echo "Build_date:${{needs.prepare.outputs.Build_date}}" 
 
 
 
