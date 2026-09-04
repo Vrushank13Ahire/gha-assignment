@@ -22,7 +22,7 @@ jobs:
       - run: echo "{{ inputs.version }}"
       - run: echo "{{ inputs.release_type }}"
       - run: echo "{{ inputs.run_number }}"
-      - run: echo "Build date:=$(date +%F)" >> "$Build_Date"
+      - run: echo "Build date:=$(date +%F)" >> "$GITHUB_OUTPUT"
 
 
 
