@@ -23,7 +23,8 @@ jobs:
       - run: echo "${{ inputs.version }}"
       - run: echo "${{ inputs.release_type }}"
       - run: echo "${{ github.run_number }}"
-      - run: echo "build_date=$(date +%F)" >> "$GITHUB_OUTPUT"
+      - id: date
+        run: echo "build_date=$(date +%F)" >> "$GITHUB_OUTPUT"
 
   announce:
     needs: prepare
