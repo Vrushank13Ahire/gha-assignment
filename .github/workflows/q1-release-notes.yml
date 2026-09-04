@@ -16,20 +16,23 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      build_date: ${{ steps.date.outputs.build_date }}
     steps:
       - uses: actions/checkout@v4
-      - run: echo "{{ inputs.version }}"
-      - run: echo "{{ inputs.release_type }}"
-      - run: echo "{{ inputs.run_number }}"
+      - run: echo "${{ inputs.version }}"
+      - run: echo "${{ inputs.release_type }}"
+      - run: echo "${{ inputs.run_number }}"
       - run: echo "build_date=$(date +%F)" >> "$GITHUB_OUTPUT"
 
   announce:
     needs: prepare
     runs-on: ubuntu-latest
+    
     steps:
       - name: output
         run: |
-          echo "Build date: ${{needs.prepare.outputs.build_date}}" 
+          echo "Build date: ${{ needs.prepare.outputs.build_date }}" 
 
 
 
