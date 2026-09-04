@@ -17,14 +17,9 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: ["18", "20", "22"]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-      - run: node --version 
+      - run: echo "build_tag=v${{ inputs.version }}-${{ inputs.release_type }}-${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+      - run: echo "build_date=$(date +%F)" >> "$GITHUB_OUTPUT"
 
       
