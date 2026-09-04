@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: output
         run: |
-          echo "build_date:${{needs.prepare.outputs.build_date}}" 
+          echo "Build date: ${{needs.prepare.outputs.build_date}}" 
 
 
 
