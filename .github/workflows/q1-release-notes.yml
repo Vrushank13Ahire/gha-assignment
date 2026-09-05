@@ -1,19 +1,22 @@
-name: Q1 Release Note
+name: Q1 Release Notes
+
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
     inputs:
       version:
-        description: "Version Number"
+        description: "Version number"
         type: string
-        default: "1.0.0"
         required: true
-
+        default: "1.0.0"
       release_type:
-        description: "Type of Version"
+        description: "Type of release"
         type: choice
-        options: [ patch, minor, major ]
-        default: "patch"
-
+        required: true
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   prepare:
@@ -23,36 +26,31 @@ jobs:
       build_date: ${{ steps.date.outputs.build_date }}
     steps:
       - id: tag
-        run: | 
-          TAG: "v${{ inputs.version}}-${{inputs.release_type}}-${{ github.run_number }}"
-          echo "build_tag=$TAG">>"$GITHUB_OUTPUT"
+        name: Compute build tag
+        run: |
+          TAG="v${{ inputs.version }}-${{ inputs.release_type }}-${{ github.run_number }}"
+          echo "build_tag=$TAG" >> "$GITHUB_OUTPUT"
+
       - id: date
+        name: Compute build date
         run: echo "build_date=$(date +%F)" >> "$GITHUB_OUTPUT"
 
   announce:
     needs: prepare
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Print output
+      - name: Print outputs
         run: |
-          echo "Build tag: ${{ needs.prepare.outputs.build_tag }}" 
-          echo "Build date: ${{ needs.prepare.outputs.build_date }}" 
+          echo "Build tag: ${{ needs.prepare.outputs.build_tag }}"
+          echo "Build date: ${{ needs.prepare.outputs.build_date }}"
 
-      - name: Write Summary
+      - name: Write summary
         run: |
           {
-            echo "| Field | value |"
-            echo "| Field | value |"
-            echo "| Version | ${{ inputs.version }}|"
-            echo "| Release Type | ${{ inputs.release_type}} |"
-            echo "| Build Tag | ${{ needs.prepare.outputs.build_tag }}"
-            echo "Build date: ${{ needs.prepare.outputs.build_date }}"
-
-          }>> $GITHUB_OUTPUT
-            
-
-
-
-
-      
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| Version | ${{ inputs.version }} |"
+            echo "| Release type | ${{ inputs.release_type }} |"
+            echo "| Build tag | ${{ needs.prepare.outputs.build_tag }} |"
+            echo "| Build date | ${{ needs.prepare.outputs.build_date }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
