@@ -1,36 +1,38 @@
-name: Deploy
+name: Deploy 
+on:   
+  push:     
+    branches: [ main ]   
+  workflow_dispatch:  
 
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+jobs:   
+  build:     
+    runs-on: ${{ matrix.os }}     
+    strategy:       
+      matrix:         
+        os: [ubuntu-latest, ubuntu-22.04]         
+        node: [18, 20]         
+        exclude:           
+          - os: ubuntu-22.04             
+            node: 18      
+    steps:       
+      - uses: actions/checkout@v4       
+      - uses: actions/setup-node@v4         
+        with:           
+          node-version: ${{ matrix.node }}        
+      
+      - run: |           
+          echo "OS: ${{ matrix.os }}"           
+          echo "Node: ${{ matrix.node }}"           
+          mkdir -p out           
+          echo "Runner OS: $RUNNER_OS" > out/report-${{ matrix.os }}-${{ matrix.node }}.txt           
+          echo "Run No: $GITHUB_RUN_NUMBER" >> out/report-${{ matrix.os }}-${{ matrix.node }}.txt
+          echo "Node version: $(node --version)" >> out/report-${{ matrix.os }}-${{ matrix.node }}.txt           
+          echo "npm version: $(npm --version)" >> out/report-${{ matrix.os }}-${{ matrix.node }}.txt           
+          cat out/report-${{ matrix.os }}-${{ matrix.node }}.txt        
+      
+      - name: Upload Report Artifact
+        uses: actions/upload-artifact@v4         
+        with:             
+          name: reports-${{ matrix.os }}-${{ matrix.node }}
+          path: out/
 
-jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, ubuntu-22.04]
-        node: [18, 20]
-        exclude:
-          - os: ubuntu-22.04
-            node: 18
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-
-      - run: |
-          echo "OS: ${{ matrix.os }}"
-          echo "Node: ${{ matrix.node }}"
-          mkdir -p out
-          echo "Runner OS: $RUNNER_OS">out/report-${{matrix.os}}-${{matrix.node}}.txt
-          echo "Run No: $RUNNER_OS">out/report-${{matrix.os}}-${{matrix.node}}.txt
-          echo "Node version: $(node --version)" >> out/report-${{ matrix.os }}-${{ matrix.node }}.txt
-          echo "npm version: $(npm --version)" >> out/report-${{ matrix.os }}-${{ matrix.node }}.txt
-          cat out/report-${{matrix.os}}-${{matrix.node}}.txt
-          uses: actions/upload-artifact@v4
-          with:
-            path: .
