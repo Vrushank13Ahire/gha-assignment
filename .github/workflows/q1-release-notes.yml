@@ -25,7 +25,7 @@ jobs:
       - id: tag
         run: | 
           TAG: "v${{ inputs.version}}-${{inputs.release_type}}-${{ github.run_number }}"
-          echo "build_tag=$TAG">>"GITHUB_OUTPUT"
+          echo "build_tag=$TAG">>"$GITHUB_OUTPUT"
       - id: date
         run: echo "build_date=$(date +%F)" >> "$GITHUB_OUTPUT"
 
