@@ -1,14 +1,13 @@
 name: Deploy
+
 on:
-  workflow_dispatch:
   push:
     branches: [ main ]
-
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-22.04]
@@ -16,12 +15,14 @@ jobs:
         exclude:
           - os: ubuntu-22.04
             node: 18
+
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/steup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+
       - run: |
-          node --version
           echo "OS: ${{ matrix.os }}"
-          echo "node: ${{ matrix.node }}"
+          echo "Node: ${{ matrix.node }}"
+          node --version
