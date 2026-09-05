@@ -36,3 +36,12 @@ jobs:
           name: reports-${{ matrix.os }}-${{ matrix.node }}
           path: out/
 
+  collect:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: reports
+      - run: cat ls reports/
+
