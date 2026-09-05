@@ -45,4 +45,5 @@ jobs:
           path: reports
       - run: | 
           cd reports/
+          cat *.txt
 
