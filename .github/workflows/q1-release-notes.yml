@@ -1,13 +1,15 @@
-name: CI
+name: Q1 Release Note
 on:
   workflow_dispatch: 
     inputs:
       version:
+        description: "Version Number"
         type: string
         default: "1.0.0"
         required: true
 
       release_type:
+        description: "Type of Version"
         type: choice
         options: [ patch, minor, major ]
         default: "patch"
@@ -17,12 +19,13 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     outputs:
-      build_date: ${{ steps.date.outputs.build_date }}
+      build_tag: ${{ steps.tag.outputs.build_tag }}
+      build_date: ${{ steps.tag.outputs.build_date }}
     steps:
-      - uses: actions/checkout@v4
-      - run: echo "${{ inputs.version }}"
-      - run: echo "${{ inputs.release_type }}"
-      - run: echo "${{ github.run_number }}"
+      - id: tag
+        run: | 
+          TAG: "${{ inputs.version}}-${{inputs.release_type}}-${{ github.run_number }}"
+          echo "build_tag=$TAG">>"GITHUB_OUTPUT"
       - id: date
         run: echo "build_date=$(date +%F)" >> "$GITHUB_OUTPUT"
 
@@ -31,9 +34,23 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: output
+      - name: Print output
         run: |
+          echo "Build tag: ${{ needs.prepare.outputs.build_tag }}" 
           echo "Build date: ${{ needs.prepare.outputs.build_date }}" 
+
+      - name: Write Summary
+        run: |
+          {
+            echo "| Field | value |"
+            echo "| Field | value |"
+            echo "| Version | ${{ inputs.version }}|"
+            echo "| Release Type | ${{ inputs.release_type}} |"
+            echo "| Build Tag | ${{ needs.prepare.outputs.build_tag }}"
+            echo "Build date: ${{ needs.prepare.outputs.build_date }}"
+
+          }>> $GITHUB_OUTPUT
+            
 
 
 
