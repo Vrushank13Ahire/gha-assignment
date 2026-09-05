@@ -8,8 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: List repo files
         run: ls -la
       - name: Runs the hello script
         run: bash scripts/hello.sh
-      - uses: actions/checkout@v4
+
