@@ -1,0 +1,14 @@
+name: Q6-caller
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  call-reusable-workflow:
+    uses: ./.github/workflows/q6-reusable.yml
+    with:
+      target_env: dev
