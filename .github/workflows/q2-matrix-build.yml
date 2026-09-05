@@ -31,3 +31,6 @@ jobs:
           echo "Node version: $(node --version)" >> out/report-${{ matrix.os }}-${{ matrix.node }}.txt
           echo "npm version: $(npm --version)" >> out/report-${{ matrix.os }}-${{ matrix.node }}.txt
           cat out/report-${{matrix.os}}-${{matrix.node}}.txt
+          uses: actions/upload-artifact@v4
+          with:
+            path: .
