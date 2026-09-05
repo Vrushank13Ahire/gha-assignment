@@ -44,5 +44,5 @@ jobs:
         with:
           path: reports
       - run: | 
-          cd reports/ && cat *.txt
+          ls reports/ 
 
