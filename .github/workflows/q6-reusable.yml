@@ -1,0 +1,15 @@
+name: Q6
+
+on: 
+  workflow_call: 
+    inputs:
+      target_env:
+        type: string
+        required: true
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "OK"
