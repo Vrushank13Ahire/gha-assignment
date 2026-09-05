@@ -43,5 +43,6 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: reports
-      - run: ls reports/
+      - run: | 
+          cd reports/
 
