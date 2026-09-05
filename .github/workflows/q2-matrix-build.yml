@@ -28,3 +28,6 @@ jobs:
           node --version
           npm --version
           echo "Runner OS: $RUNNER_OS"
+          mkdir -p out
+          echo "Runner OS: $RUNNER_OS">out/report-${{matrix.os}}-${{matrix.node}}.txt"
+          cat out/report-${{matrix.os}}-${{matrix.node}}.txt
