@@ -26,3 +26,5 @@ jobs:
           echo "OS: ${{ matrix.os }}"
           echo "Node: ${{ matrix.node }}"
           node --version
+          npm --version
+          echo "Runner OS: $RUNNER_OS"
