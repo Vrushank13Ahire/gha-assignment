@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       build_tag: ${{ steps.tag.outputs.build_tag }}
-      build_date: ${{ steps.tag.outputs.build_date }}
+      build_date: ${{ steps.date.outputs.build_date }}
     steps:
       - id: tag
         run: | 
