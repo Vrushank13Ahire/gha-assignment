@@ -54,5 +54,5 @@ jobs:
         with:
           path: all-reports
       - name: 
-        run: find all-reports -type f -exce cat {} \;
+        run: find all-reports -type f -exec cat {} \;
         
