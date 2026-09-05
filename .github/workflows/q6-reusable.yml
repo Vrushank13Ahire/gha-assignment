@@ -13,3 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: echo "OK"
+        id: greet
+      - uses: ./.github/actions/greet/action.yml
+        with:
+          name: ${{ github.actor }}
+          env_name: ${{ inputs.target_env }}
+      - run: |
+          echo "${{ steps.greet.outputs.greeting }}"
+          echo "Deploying to ${{ inputs.target_env }}... done."
