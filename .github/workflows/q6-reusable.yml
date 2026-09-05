@@ -1,4 +1,4 @@
-name: Q6 Reusable Workflow
+name: Q6 
 
 on:
   workflow_call:
