@@ -31,4 +31,5 @@ jobs:
           echo "Run no: $GITHUB_RUN_NUMBER"
           mkdir -p out
           echo "Runner OS: $RUNNER_OS">out/report-${{matrix.os}}-${{matrix.node}}.txt
+          echo "Run No: $RUNNER_OS">out/report-${{matrix.os}}-${{matrix.node}}.txt
           cat out/report-${{matrix.os}}-${{matrix.node}}.txt
