@@ -1,5 +1,4 @@
 name: Q1 Release Notes
-
 on:
   workflow_dispatch:
     inputs:
@@ -17,7 +16,6 @@ on:
           - patch
           - minor
           - major
-
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -30,11 +28,9 @@ jobs:
         run: |
           TAG="v${{ inputs.version }}-${{ inputs.release_type }}-${{ github.run_number }}"
           echo "build_tag=$TAG" >> "$GITHUB_OUTPUT"
-
       - id: date
         name: Compute build date
         run: echo "build_date=$(date +%F)" >> "$GITHUB_OUTPUT"
-
   announce:
     needs: prepare
     runs-on: ubuntu-latest
@@ -43,7 +39,6 @@ jobs:
         run: |
           echo "Build tag: ${{ needs.prepare.outputs.build_tag }}"
           echo "Build date: ${{ needs.prepare.outputs.build_date }}"
-
       - name: Write summary
         run: |
           {
